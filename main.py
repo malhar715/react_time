@@ -11,7 +11,25 @@ def main():     #game loop
             game_state = main_menu(screen)
         
         if game_state == State.NEW_GAME:
-            game_state = set_rounds(screen)
+            player = PlayerInfo()
+            game_state = set_rounds(screen,player)
+        
+        if game_state == State.NEXT_ROUND:
+            if player.num_rounds < 10:
+                player.num_rounds += 1
+            else:
+                player.num_rounds = 1
+            game_state = set_rounds(screen, player)
+
+        if game_state == State.NEXT_DIFF:
+            if player.difficulty == "Easy":
+                player.difficulty = "Medium"
+            elif player.difficulty == "Medium":
+                player.difficulty = "Hard"
+            elif player.difficulty == "Hard":
+                player.difficulty = "Easy"
+
+            game_state = set_rounds(screen, player)
         
         if game_state == State.INFO:
             game_state = get_info(screen)

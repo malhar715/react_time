@@ -11,6 +11,7 @@ BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 RED = (255, 0, 0)
 
+levels = ["Easy", "Medium", "Hard"]
 
 def create_test_surface(text, font_size, text_color, bg_color):
     font = pygame.freetype.SysFont("Comic Sans MS", font_size, bold=True)
@@ -72,6 +73,9 @@ class State(Enum):
     MAIN_MENU = 0
     NEW_GAME = 1
     INFO = 2
+    NEXT_ROUND = 3
+    NEXT_DIFF = 4
+    BEGIN_GAME = 5
 
 def main_menu(screen):
     Start = Button(
@@ -101,8 +105,59 @@ def main_menu(screen):
         action = State.QUIT
     )
 
-    buttons = [Start,Instructions, Quit]
+    buttons = RenderUpdates(Start, Instructions, Quit)
 
+    return game_loop(screen, buttons)
+
+def set_rounds(screen, player):
+
+    Back = Button(
+        center_pos=(150, 570),
+        font_size=20,
+        bg_color=BLACK,
+        text_color=WHITE,
+        text="Return to Main Menu",
+        action= State.MAIN_MENU
+    )
+
+    AddRound = Button(
+        center_pos=(400, 200),
+        font_size=20,
+        bg_color=BLACK,
+        text_color=WHITE,
+        text=f"Number of rounds ({player.num_rounds})",
+        action= State.NEXT_ROUND
+    )
+
+    IncDiff = Button(
+        center_pos=(400, 300),
+        font_size=20,
+        bg_color=BLACK,
+        text_color=WHITE,
+        text=f"Difficulty ({player.difficulty})",
+        action= State.NEXT_DIFF
+    )
+
+    buttons = RenderUpdates(Back, AddRound, IncDiff)
+
+    return game_loop(screen, buttons)
+
+def get_info(screen):
+    Back = Button(
+        center_pos=(150, 570),
+        font_size=20,
+        bg_color=BLACK,
+        text_color=WHITE,
+        text="Return to Main Menu",
+        action= State.MAIN_MENU
+    )
+    buttons = RenderUpdates(Back)
+    return btn_w_text(screen, buttons, info_text)
+    
+
+
+""" HELPER FUNCTIONS """
+def game_loop(screen, buttons):
     while True:     #loop to check if mouse down event has occurred
         mouse_up = False
 
@@ -115,63 +170,27 @@ def main_menu(screen):
             game_action = button.update(pygame.mouse.get_pos(), mouse_up)
             if game_action is not None:
                 return game_action
-            button.draw(screen)
+        buttons.draw(screen)
+        
 
         pygame.display.flip()
 
-def set_rounds(screen):
-
-    Back = Button(
-        center_pos=(150, 570),
-        font_size=20,
-        bg_color=BLACK,
-        text_color=WHITE,
-        text="Return to Main Menu",
-        action= State.MAIN_MENU
-    )
-
-    while True:     #loop to check if mouse up event has occurred
-        mouse_up = False
-
-        for event in pygame.event.get():
-            if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
-                mouse_up = True
-        screen.fill(BLACK)
-
-        #for button in buttons:
-        game_action = Back.update(pygame.mouse.get_pos(), mouse_up)
-        if game_action is not None:
-            return game_action
-        Back.draw(screen)
-
-        pygame.display.flip()
-
-def get_info(screen):
-    Back = Button(
-        center_pos=(150, 570),
-        font_size=20,
-        bg_color=BLACK,
-        text_color=WHITE,
-        text="Return to Main Menu",
-        action= State.MAIN_MENU
-    )
-
+def btn_w_text(screen, buttons, lines):
     while True:     #loop to check if mouse down event has occurred
         mouse_up = False
 
-
         for event in pygame.event.get():
             if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
                 mouse_up = True
         screen.fill(BLACK)
 
-        #for button in buttons:
-        game_action = Back.update(pygame.mouse.get_pos(), mouse_up)
-        if game_action is not None:
-            return game_action
-        Back.draw(screen)
-
-        #display game instructions line by line
+        for button in buttons:
+            game_action = button.update(pygame.mouse.get_pos(), mouse_up)
+            if game_action is not None:
+                return game_action
+        buttons.draw(screen)
+        
+        #display text line by line
         height = 100
         for line in info_text:
             myText = create_test_surface(line, 20, WHITE, BLACK)
@@ -180,5 +199,5 @@ def get_info(screen):
                 height = height + 75
             else:
                 height = height + 25
-        
+
         pygame.display.flip()
