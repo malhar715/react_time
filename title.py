@@ -82,7 +82,7 @@ class State(Enum):
 
 def main_menu(screen):
     Start = Button(
-        center_pos=(400, 100),
+        center_pos=(400, 300),
         font_size=20,
         bg_color=BLACK,
         text_color=WHITE,
@@ -91,7 +91,7 @@ def main_menu(screen):
     )
 
     Instructions = Button(
-        center_pos=(400, 200),
+        center_pos=(400, 400),
         font_size=20,
         bg_color=BLACK,
         text_color=WHITE,
@@ -110,7 +110,7 @@ def main_menu(screen):
 
     buttons = RenderUpdates(Start, Instructions, Quit)
 
-    return game_loop(screen, buttons)
+    return button_w_text(screen, buttons, "Reaction Time Game", 40, 200, 100)
 
 def set_rounds(screen, player):
 
@@ -164,7 +164,7 @@ def get_info(screen):
         action= State.MAIN_MENU
     )
     buttons = RenderUpdates(Back)
-    return btn_w_text(screen, buttons, info_text)
+    return btn_w_line(screen, buttons, info_text)
     
 
 
@@ -176,6 +176,8 @@ def game_loop(screen, buttons):
         for event in pygame.event.get():
             if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
                 mouse_up = True
+            if event.type == pygame.QUIT:
+                return State.QUIT
         screen.fill(BLACK)
 
         for button in buttons:
@@ -186,13 +188,15 @@ def game_loop(screen, buttons):
 
         pygame.display.update()
 
-def btn_w_text(screen, buttons, lines):
+def btn_w_line(screen, buttons, lines):
     while True:     #loop to check if mouse down event has occurred
         mouse_up = False
 
         for event in pygame.event.get():
             if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
                 mouse_up = True
+            if event.type == pygame.QUIT:
+                return State.QUIT
         screen.fill(BLACK)
 
         for button in buttons:
@@ -202,13 +206,48 @@ def btn_w_text(screen, buttons, lines):
         buttons.draw(screen)
         
         #display text line by line
-        height = 100
+        height = 150
         for line in info_text:
-            myText = create_test_surface(line, 20, WHITE, BLACK)
-            screen.blit(myText,(30,height))
-            if line == info_text[-2]:
-                height = height + 75
+            if line == info_text[0]:
+                myText = create_test_surface(line, 50, WHITE, BLACK)
+                screen.blit(myText,(250,height-100))
             else:
-                height = height + 25
+                myText = create_test_surface(line, 20, WHITE, BLACK)
+                screen.blit(myText,(55,height))
+
+                if line == info_text[-2]:
+                    height = height + 75
+                elif line == info_text[1]:
+                    height = height + 75
+                elif line == info_text[3]:
+                    height = height + 75
+                else:
+                    height = height + 25
 
         pygame.display.flip()
+
+def button_w_text(screen, buttons, text, size, xpos, ypos):
+    while True:     #loop to check if mouse down event has occurred
+        mouse_up = False
+
+        for event in pygame.event.get():
+            if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
+                mouse_up = True
+            if event.type == pygame.QUIT:
+                return State.QUIT
+        screen.fill(BLACK)
+
+        for button in buttons:
+            game_action = button.update(pygame.mouse.get_pos(), mouse_up)
+            if game_action is not None:
+                return game_action
+        buttons.draw(screen)
+        
+        displayText(screen, text, size, xpos, ypos)
+
+        pygame.display.update()
+
+def displayText(screen, text, sz, xpos, ypos):
+    myText = create_test_surface(text, sz, WHITE, BLACK)
+    screen.blit(myText,(xpos,ypos))
+    pygame.display.update()
