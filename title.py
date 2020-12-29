@@ -120,6 +120,15 @@ def set_rounds(screen, player):
         action= State.MAIN_MENU
     )
 
+    BeginGame = Button(
+        center_pos=(400, 450),
+        font_size=40,
+        bg_color=BLACK,
+        text_color=WHITE,
+        text="Begin",
+        action= State.BEGIN_GAME
+    )
+
     AddRound = Button(
         center_pos=(400, 200),
         font_size=20,
@@ -138,7 +147,7 @@ def set_rounds(screen, player):
         action= State.NEXT_DIFF
     )
 
-    buttons = RenderUpdates(Back, AddRound, IncDiff)
+    buttons = RenderUpdates(Back, BeginGame, AddRound, IncDiff)
 
     return game_loop(screen, buttons)
 
@@ -148,7 +157,7 @@ def get_info(screen):
         font_size=20,
         bg_color=BLACK,
         text_color=WHITE,
-        text="Return to Main Menu",
+        text="RETURN TO MAIN MENU",
         action= State.MAIN_MENU
     )
     buttons = RenderUpdates(Back)

@@ -1,4 +1,5 @@
 from title import *
+from start_game import *
 
 def main():     #game loop
     pygame.init()
@@ -31,6 +32,9 @@ def main():     #game loop
 
             game_state = set_rounds(screen, player)
         
+        if game_state == State.BEGIN_GAME:
+            game_state = play_game(screen, player) #IN PROGRESS
+
         if game_state == State.INFO:
             game_state = get_info(screen)
         
