@@ -78,6 +78,7 @@ class State(Enum):
     BEGIN_GAME = 5
     GAME_OVER = 6
     PLAY = 7
+    IGNORE = 8
 
 def main_menu(screen):
     Start = Button(
@@ -159,7 +160,7 @@ def get_info(screen):
         font_size=20,
         bg_color=BLACK,
         text_color=WHITE,
-        text="RETURN TO MAIN MENU",
+        text="Return to Main Menu",
         action= State.MAIN_MENU
     )
     buttons = RenderUpdates(Back)
