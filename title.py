@@ -219,7 +219,7 @@ def btn_w_line(screen, buttons, lines):
                     height = height + 75
                 elif line == info_text[1]:
                     height = height + 75
-                elif line == info_text[3]:
+                elif line == info_text[4]:
                     height = height + 75
                 else:
                     height = height + 25

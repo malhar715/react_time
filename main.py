@@ -44,7 +44,7 @@ def main():     #game loop
             curr_round += 1
 
         if game_state == State.GAME_OVER:
-            game_state = game_over(screen, results)
+            game_state = game_over(screen, results, player)
             curr_round = 1
 
         if game_state == State.INFO:

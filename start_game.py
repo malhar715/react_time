@@ -63,7 +63,7 @@ def play_round(screen, player, results):
     
     return reaction_time(screen,buttons,results)
 #Game Over Screen
-def game_over(screen, results):
+def game_over(screen, results, player):
     Back = Button(
         center_pos=(170, 570),
         font_size=20,
@@ -91,12 +91,12 @@ def game_over(screen, results):
     buttons = RenderUpdates(Back, Replay, NewGame)
 
     avg = sum(results) / len(results)
-    myavg = str(round(avg,2))     
-    return button_w_text(screen, buttons,f"Your average reaction time was: {myavg} ms" , 20, 150, 100)      
+    myavg = str(round(avg,2))
+    if player.num_rounds == 1:     
+        return button_w_text(screen, buttons,f"Your reaction time was: {myavg} ms" , 20, 215, 300)
+    else:
+        return button_w_text(screen, buttons,f"Your average reaction time was: {myavg} ms" , 20, 175, 300)
         
-        
-
-
 """Helper Functions"""
 
 def countDown(screen, curr_round):
