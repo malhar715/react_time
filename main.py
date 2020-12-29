@@ -3,7 +3,8 @@ from start_game import *
 
 def main():     #game loop
     pygame.init()
-
+    curr_round = 1
+    results = []
     screen = pygame.display.set_mode((800, 600))
     game_state = State.MAIN_MENU
     pygame.display.set_caption('Reaction Time')
@@ -14,6 +15,8 @@ def main():     #game loop
         if game_state == State.NEW_GAME:
             player = PlayerInfo()
             game_state = set_rounds(screen,player)
+            curr_round = 1
+            results.clear()
         
         if game_state == State.NEXT_ROUND:
             if player.num_rounds < 10:
@@ -33,7 +36,16 @@ def main():     #game loop
             game_state = set_rounds(screen, player)
         
         if game_state == State.BEGIN_GAME:
-            game_state = play_game(screen, player) #IN PROGRESS
+            game_state = start_round(screen, player, curr_round) #IN PROGRESS
+    
+        if game_state == State.PLAY:
+
+            game_state = play_round(screen, player, results)
+            curr_round += 1
+
+        if game_state == State.GAME_OVER:
+            game_state = game_over(screen, results)
+            curr_round = 1
 
         if game_state == State.INFO:
             game_state = get_info(screen)

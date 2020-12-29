@@ -76,6 +76,8 @@ class State(Enum):
     NEXT_ROUND = 3
     NEXT_DIFF = 4
     BEGIN_GAME = 5
+    GAME_OVER = 6
+    PLAY = 7
 
 def main_menu(screen):
     Start = Button(
@@ -180,9 +182,8 @@ def game_loop(screen, buttons):
             if game_action is not None:
                 return game_action
         buttons.draw(screen)
-        
 
-        pygame.display.flip()
+        pygame.display.update()
 
 def btn_w_text(screen, buttons, lines):
     while True:     #loop to check if mouse down event has occurred
