@@ -1,9 +1,6 @@
 # Reaction Time Game
-***You will need to install the PyGame package in order to run the Python files***   
 
-***Run main.py in order to start the program***   
+A game developed in Python that measures a user's average reaction time after they have inputted the difficulty and the number of rounds they wish to play. A demo of this project can be found here:
 
-* Begin by selecting the number of rounds (1-10) and the difficulty: easy, medium, or hard. 
-* Colors will appear on the screen in a random location. 2 colors for easy, 4 for medium, 6 for hard. 
-* Click on the green color to measure reaction time. 
-* The average reaction time will be displayed after all rounds have finished.
+
+[![](http://img.youtube.com/vi/Ng-Ud2EPlkE/0.jpg)](http://www.youtube.com/watch?v=Ng-Ud2EPlkE "Reaction Time Game Demo")
